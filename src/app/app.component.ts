@@ -1,5 +1,7 @@
 import { Component } from "@angular/core";
+import { ExcelService } from './services/excel.service';
 import { MatExpansionPanel, MatExpansionPanelHeader, MatAccordion, MatFormField, MatOption, MatSelect } from "@angular/material";
+import * as _ from 'lodash';
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -15,7 +17,15 @@ export class AppComponent {
   tempNumbers: number[] = [];
   results: number[][] = [];
 
-  constructor() { }
+  constructor(private excelService: ExcelService) { }
+
+  exportAsXLSX(): void {
+    const data = _.cloneDeep(this.results);
+    data.forEach((group: any[], index: number) => {
+      group.unshift(++index + "조");
+    });
+    this.excelService.exportAsExcelFile(data, 'sample');
+  }
 
   checkButtonStatus() {
     if (this.hasAllInputs() && this.hasProperNumbers()) {

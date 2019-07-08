@@ -43,7 +43,16 @@
     >
       배치
     </button>
-
+    <br />
+    <button
+      mat-flat-button
+      color="warn"
+      (click)="exportAsXLSX()"
+      *ngIf="!disableButton" 
+      [disabled]="this.results.length == 0"
+    >
+      다운로드
+    </button>
     <br />
     <br />
     <br />
