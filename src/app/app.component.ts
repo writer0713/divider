@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { MatFormField, MatOption, MatSelect } from "@angular/material";
+import { MatExpansionPanel, MatExpansionPanelHeader, MatAccordion, MatFormField, MatOption, MatSelect } from "@angular/material";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -14,6 +14,8 @@ export class AppComponent {
 
   tempNumbers: number[] = [];
   results: number[][] = [];
+
+  constructor() { }
 
   checkButtonStatus() {
     if (this.hasAllInputs() && this.hasProperNumbers()) {

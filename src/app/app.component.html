@@ -48,14 +48,27 @@
     <br />
     <br />
 
-    <mat-grid-list cols="2" rowHeight="2:1">
-      <mat-grid-tile *ngFor="let group of results; let i = index">
-        <h5>{{ i + 1 }} 조 ( {{ group.length }} 명)</h5>
-        <mat-list dense role="list" *ngFor="let number of group">
-          <mat-list-item role="listitem">{{ number }} 번</mat-list-item>
-        </mat-list>
-      </mat-grid-tile>
-    </mat-grid-list>
+    <ng-container *ngFor="let group of results; let i = index">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ i + 1 }} 조
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ group.length }} 명
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <ng-container *ngFor="let number of group">
+            <p>{{ number }} 번</p>
+          </ng-container>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </ng-container> 
+    
+    <br />
+    <br />
   </div>
 </div>
 
