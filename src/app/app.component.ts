@@ -1,7 +1,10 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component } from "@angular/core";
 import { ExcelService } from './services/excel.service';
-import { MatExpansionPanel, MatExpansionPanelHeader, MatAccordion, MatFormField, MatOption, MatSelect } from "@angular/material";
+import { MatExpansionPanel, MatExpansionPanelHeader, MatAccordion, MatFormField, MatOption, MatSelect, MatChipInput, MatChipInputEvent } from "@angular/material";
+import { MatDialog } from '@angular/material/dialog';
 import * as _ from 'lodash';
+import { DialogComponent } from './dialog/dialog.component';
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -12,12 +15,23 @@ export class AppComponent {
 
   maxNumber: number;
   numberOfGroup: number;
+  tempNumbers: number[] = []; // 번호를 담을 bucket
+  results: number[][] = []; // 최종 결과
   disableButton: boolean = true;
 
-  tempNumbers: number[] = [];
-  results: number[][] = [];
+  // 제외할 번호 input-form 관련 변수들
+  numbersToExclude: number[] = [];
+  visible = true;
+  removable = true;
+  addOnBlur = true;
+  selectable = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor(private excelService: ExcelService) { }
+  constructor(
+    private excelService: ExcelService,
+    private dialog: MatDialog) { 
+  } // end of constructor
+
 
   exportAsXLSX(): void {
     const data = _.cloneDeep(this.results);
@@ -55,7 +69,7 @@ export class AppComponent {
     this.reset();
     this.generateNumbers();
 
-    let total: number = this.maxNumber;
+    let total: number = this.tempNumbers.length;
     let numberOfGroup: number = this.numberOfGroup; // 조 개수
     let numberPerGroup: number = total / numberOfGroup; // 한 조당 조원수
     let rest: number = total % numberOfGroup; // 남은 아이들
@@ -95,6 +109,10 @@ export class AppComponent {
   generateNumbers() {
     const maxNumber: number = this.maxNumber;
     for (let i = 1; i <= maxNumber; i++) {
+      if (this.numbersToExclude.includes(i)) {
+        continue;
+      }
+
       this.tempNumbers.push(i);
     }
     this.shuffle(this.tempNumbers);
@@ -118,5 +136,53 @@ export class AppComponent {
       [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
     }
     return numbers;
+  }
+
+  /**
+   * 제외할 번호를 list(numbersToExclude) 에 추가
+   * @param event 
+   */
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const inputNumber = Number(event.value);
+
+    if (inputNumber === 0) {
+      input.value = '';
+      return;
+    }
+
+    if (this.numbersToExclude.includes(inputNumber)) {
+      this.openDialog();
+      input.value = '';
+      input.focus();
+      return;
+    }
+    
+    // Add inputNumber
+    this.numbersToExclude.push(inputNumber);
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  /**
+   * 제외 번호 list에서 제거
+   * @param exclusionNumber 
+   */
+  remove(exclusionNumber: number): void {
+    const index = this.numbersToExclude.indexOf(exclusionNumber);
+
+    if (index >= 0) {
+      this.numbersToExclude.splice(index, 1);
+    }
+  }
+
+  /**
+   * 이미 추가했다는 alert 노출
+   */
+  openDialog() {
+    this.dialog.open(DialogComponent);
   }
 }
