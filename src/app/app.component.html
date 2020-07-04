@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div class="container">
-  <div style="text-align:center">
+  <div style="text-align: center;">
     <h1 class="mat-headline">GROUP DIVIDER</h1>
     <p class="mat-caption"><u>잠실고등학교 교사 김희준</u></p>
     <img
@@ -22,22 +22,34 @@
     </mat-form-field>
     <mat-form-field>
       <mat-chip-list #exclusionNumbers aria-label="exclusion selection">
-        <mat-chip selected color="primary" *ngFor="let number of numbersToExclude"
-                 [selectable]="selectable"
-                 [removable]="removable" 
-                 (removed)="remove(number)">
-          {{number}}
+        <mat-chip
+          selected
+          color="primary"
+          *ngFor="let number of numbersToExclude"
+          [selectable]="selectable"
+          [removable]="removable"
+          (removed)="remove(number)"
+        >
+          {{ number }}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-        <input placeholder="제외할 번호" type="number"
-               [matChipInputFor]="exclusionNumbers"
-               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-               [matChipInputAddOnBlur]="addOnBlur"
-               (matChipInputTokenEnd)="add($event)">
+        <input
+          autocomplete="off"
+          placeholder="제외할 번호"
+          type="number"
+          #tooltip="matTooltip"
+          [matTooltip]="tooltipMessage"
+          [matChipInputFor]="exclusionNumbers"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)"
+          (click)="onFocus(tooltip)"
+        />
       </mat-chip-list>
     </mat-form-field>
     <mat-form-field>
       <input
+        autocomplete="off"
         type="number"
         matInput
         placeholder="몇 개의 조로 나누고 싶나요?"
@@ -58,7 +70,7 @@
       mat-flat-button
       color="warn"
       (click)="exportAsXLSX()"
-      *ngIf="!disableButton" 
+      *ngIf="!disableButton"
       [disabled]="this.results.length == 0"
     >
       다운로드
@@ -71,21 +83,19 @@
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{ i + 1 }} 조
-            </mat-panel-title>
+            <mat-panel-title> {{ i + 1 }} 조 </mat-panel-title>
             <mat-panel-description>
               {{ group.length }} 명
             </mat-panel-description>
           </mat-expansion-panel-header>
-          
+
           <ng-container *ngFor="let number of group">
             <p>{{ number }} 번</p>
           </ng-container>
         </mat-expansion-panel>
       </mat-accordion>
-    </ng-container> 
-    
+    </ng-container>
+
     <br />
     <br />
   </div>

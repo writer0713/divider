@@ -1,14 +1,24 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Component } from "@angular/core";
-import { ExcelService } from './services/excel.service';
-import { MatExpansionPanel, MatExpansionPanelHeader, MatAccordion, MatFormField, MatOption, MatSelect, MatChipInput, MatChipInputEvent } from "@angular/material";
-import { MatDialog } from '@angular/material/dialog';
-import * as _ from 'lodash';
-import { DialogComponent } from './dialog/dialog.component';
+import { ExcelService } from "./services/excel.service";
+import { DeviceDetectorService } from "ngx-device-detector";
+import {
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatAccordion,
+  MatFormField,
+  MatOption,
+  MatSelect,
+  MatChipInput,
+  MatChipInputEvent,
+} from "@angular/material";
+import { MatDialog } from "@angular/material/dialog";
+import * as _ from "lodash";
+import { DialogComponent } from "./dialog/dialog.component";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
   title = "GROUP DIVIDER";
@@ -27,18 +37,52 @@ export class AppComponent {
   selectable = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
+  tooltipMessage: string;
+  os: string;
+
   constructor(
     private excelService: ExcelService,
-    private dialog: MatDialog) { 
+    private deviceService: DeviceDetectorService,
+    private dialog: MatDialog
+  ) {
+    this.detectOS();
+    this.initTooltipMessageForMobile();
   } // end of constructor
 
+  detectOS() {
+    const deviceInfo = this.deviceService.getDeviceInfo();
+    const os = deviceInfo.os;
+
+    this.os = os;
+  }
+
+  initTooltipMessageForMobile() {
+    const os = this.os.toLowerCase();
+    const isDesktop = this.deviceService.isDesktop();
+
+    console.log(isDesktop);
+
+    if (isDesktop) {
+      this.tooltipMessage = "입력 후 'Enter' 키를 누르세요.";
+      return;
+    }
+
+    switch (os) {
+      case "android":
+        this.tooltipMessage = "입력 후 '이동' 버튼을 누르세요.";
+        break;
+      case "ios":
+      case "mac":
+        this.tooltipMessage = "입력 후 '↵' 혹은 'return' 버튼을 누르세요.";
+    }
+  }
 
   exportAsXLSX(): void {
     const data = _.cloneDeep(this.results);
     data.forEach((group: any[], index: number) => {
       group.unshift(++index + "조");
     });
-    this.excelService.exportAsExcelFile(data, 'sample');
+    this.excelService.exportAsExcelFile(data, "sample");
   }
 
   checkButtonStatus() {
@@ -140,36 +184,36 @@ export class AppComponent {
 
   /**
    * 제외할 번호를 list(numbersToExclude) 에 추가
-   * @param event 
+   * @param event
    */
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const inputNumber = Number(event.value);
 
     if (inputNumber === 0) {
-      input.value = '';
+      input.value = "";
       return;
     }
 
     if (this.numbersToExclude.includes(inputNumber)) {
       this.openDialog();
-      input.value = '';
+      input.value = "";
       input.focus();
       return;
     }
-    
+
     // Add inputNumber
     this.numbersToExclude.push(inputNumber);
 
     // Reset the input value
     if (input) {
-      input.value = '';
+      input.value = "";
     }
   }
 
   /**
    * 제외 번호 list에서 제거
-   * @param exclusionNumber 
+   * @param exclusionNumber
    */
   remove(exclusionNumber: number): void {
     const index = this.numbersToExclude.indexOf(exclusionNumber);
@@ -184,5 +228,9 @@ export class AppComponent {
    */
   openDialog() {
     this.dialog.open(DialogComponent);
+  }
+
+  onFocus(tooltip) {
+    tooltip.show();
   }
 }
