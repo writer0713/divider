@@ -119,5 +119,8 @@
       }
     }
   },
-  "defaultProject": "group-divider"
+  "defaultProject": "group-divider",
+  "cli": {
+    "analytics": "f6b413f1-353c-4660-9543-f3adde36544f"
+  }
 }

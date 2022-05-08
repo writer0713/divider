@@ -1,12 +1,10 @@
-import {
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatExpansionModule,
-  MatInputModule,
-  MatIconModule,
-  MatDialogModule,
-  MatTooltipModule,
-} from "@angular/material";
+import { MatButtonModule } from "@angular/material/button";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatChipsModule } from "@angular/material/chips";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
