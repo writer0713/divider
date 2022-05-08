@@ -18,24 +18,23 @@ import { DialogComponent } from "./dialog/dialog.component";
 import { DeviceDetectorModule } from "ngx-device-detector";
 
 @NgModule({
-  declarations: [AppComponent, DialogComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatExpansionModule,
-    MatInputModule,
-    MatChipsModule,
-    MatIconModule,
-    MatDialogModule,
-    MatTooltipModule,
-    DeviceDetectorModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent],
-  entryComponents: [DialogComponent], // 여기에 추가 해줘야 dialog open 할때 에러 안남
+    declarations: [AppComponent, DialogComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatExpansionModule,
+        MatInputModule,
+        MatChipsModule,
+        MatIconModule,
+        MatDialogModule,
+        MatTooltipModule,
+        DeviceDetectorModule,
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
