@@ -2,16 +2,7 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { Component } from "@angular/core";
 import { ExcelService } from "./services/excel.service";
 import { DeviceDetectorService } from "ngx-device-detector";
-import {
-  MatExpansionPanel,
-  MatExpansionPanelHeader,
-  MatAccordion,
-  MatFormField,
-  MatOption,
-  MatSelect,
-  MatChipInput,
-  MatChipInputEvent,
-} from "@angular/material";
+import { MatChipInputEvent } from "@angular/material/chips";
 import { MatDialog } from "@angular/material/dialog";
 import * as _ from "lodash";
 import { DialogComponent } from "./dialog/dialog.component";
