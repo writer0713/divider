@@ -2,16 +2,3 @@
   width: 90%;
   margin: 50px auto;
 }
-
-.example-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.example-container>* {
-  width: 100%;
-}
-
-mat-grid-tile {
-  background: rgb(47, 199, 250);
-}
