@@ -1,0 +1,10 @@
+<div class="buttons">
+  <mat-button-toggle-group name="navigation" value="{{ currentPath }}">
+    <mat-button-toggle value="basic" (click)="route('/')"
+      >BASIC</mat-button-toggle
+    >
+    <mat-button-toggle value="selective" (click)="route('/selective')"
+      >SELECTIVE</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+</div>
