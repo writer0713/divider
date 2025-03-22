@@ -1,4 +1,4 @@
-import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { COMMA, ENTER, PERIOD, SHIFT, SPACE } from "@angular/cdk/keycodes";
 import { Component } from "@angular/core";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MatDialog } from "@angular/material/dialog";
@@ -25,7 +25,7 @@ export class SelectiveDividerComponent {
   removable = true;
   addOnBlur = true;
   selectable = true;
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER];
 
   tooltipMessage: string;
   os: string;
@@ -169,7 +169,6 @@ export class SelectiveDividerComponent {
 
     if (inputNumber === 0) {
       input.value = "";
-      input.focus();
       return;
     }
 

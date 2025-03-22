@@ -197,6 +197,7 @@ export class BasicDividerComponent {
     // Reset the input value
     if (input) {
       input.value = "";
+      input.focus();
     }
   }
 
