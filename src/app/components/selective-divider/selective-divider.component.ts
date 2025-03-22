@@ -169,6 +169,7 @@ export class SelectiveDividerComponent {
 
     if (inputNumber === 0) {
       input.value = "";
+      input.focus();
       return;
     }
 
@@ -183,9 +184,10 @@ export class SelectiveDividerComponent {
     this.numbersToDivide.push(inputNumber);
     this.numberOfPeople = this.numbersToDivide.length;
 
-    // Reset the input value
+    // Reset the input value and maintain focus
     if (input) {
       input.value = "";
+      input.focus();
     }
   }
 
